@@ -1,5 +1,5 @@
 import { State } from './state';
 
-export class Location {
+export class MyLocation {
     data: State [];
 }

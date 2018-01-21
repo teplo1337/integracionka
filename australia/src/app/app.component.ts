@@ -3,7 +3,8 @@ import { LocationsService } from './locations.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { State } from './state';
 import { City } from './city';
-import { Location } from './location';
+import { MyLocation } from './location';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -11,37 +12,34 @@ import { Location } from './location';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  location: Location;
+  myLocation: MyLocation;
   states: State [];
   selectedState: State;
   cities: City [];
   selectedCity: City;
-  constructor (private service: LocationsService,  private route: ActivatedRoute) {}
+  constructor (private location: Location, private service: LocationsService,  private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit () {
-    this.location = new Location;
+    this.myLocation = new MyLocation;
     const data = {};
 
     this.route.queryParams.subscribe((params: Params) => {
       if (params['city_id']) {
-        this.selectedCity = new City;
-        this.selectedCity.city_id = params['city_id'];
-        data['city_id'] = this.selectedCity.city_id;
+        data['city_id'] = params['city_id'];
       }
       if (params['state_id']) {
-        this.selectedState = new State;
-        this.selectedState.state_id = params['state_id'];
-        data['state_id'] = this.selectedState.state_id;
+        data['state_id'] = params['state_id'];
       }
       this.getData(data);
     });
   }
 
   getData (data) {
+    console.log(data)
     this.service.getLocation(data).subscribe(
       (result: any) => {
-        this.location.data = result;
-        this.checklocationStatus(this.location);
+        this.myLocation.data = result;
+        this.checklocationStatus(this.myLocation);
       },
       (error) => {
         console.log(error);
@@ -49,15 +47,14 @@ export class AppComponent implements OnInit {
     );
   }
   checklocationStatus (location) {
-    console.log(location)
     /* If state checked */
-    if (this.location.data && this.location.data.length === 1) {
+    if (this.myLocation.data && this.myLocation.data.length === 1) {
       this.selectedState = new State;
-      this.selectedState = this.location.data[0];
-      this.states = this.location.data;
+      this.selectedState = this.myLocation.data[0];
+      this.states = this.myLocation.data;
       this.cities = this.selectedState.state_data;
     } else {
-      this.states = this.location.data;
+      this.states = this.myLocation.data;
     }
     /* If city checked */
     if (this.selectedState) {
@@ -66,26 +63,31 @@ export class AppComponent implements OnInit {
         this.selectedCity = this.selectedState.state_data[0];
         this.cities = this.selectedState.state_data;
       }
-    } else if(this.selectedState) {
+    } else if (this.selectedState) {
       this.cities = this.selectedState.state_data;
     }
   }
 
   selectState (state) {
+    this.location.replaceState('', 'state_id=' + state.state_id);
     this.selectedState = state;
     this.getData({'state_id' : state.state_id});
   }
 
   selectCity (city) {
+    this.location.replaceState('', 'state_id=' + this.selectedState.state_id + 'city_id=' + city.city_id);
     this.selectedCity = city;
   }
 
   unselectCity () {
+    this.location.replaceState('', 'state_id=' + this.selectedState.state_id);
     this.selectedCity = void 0;
   }
 
   unselectState () {
+    this.location.replaceState('', '');
     this.cities = [];
+    this.selectedCity = void 0;
     this.selectedState = void 0;
     this.getData({});
   }

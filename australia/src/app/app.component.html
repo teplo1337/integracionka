@@ -5,7 +5,7 @@
 
     <div id="location">   
         <div class="block">
-            <div *ngIf="!selectedState">
+            <div class="list" *ngIf="!selectedState">
                 <div 
                 (click)="selectState(state)"
                 [class.selected]="state===selectedState"
@@ -13,7 +13,7 @@
                     {{state.state_name}}
                 </div>
             </div>
-            <div *ngIf="selectedState">
+            <div class="list" *ngIf="selectedState">
                 <div 
                 class="selected" 
                 (click)="unselectState()">                
@@ -23,7 +23,7 @@
         </div>
         <div id="buffer"></div>
         <div class="block">
-            <div *ngIf="!selectedCity && selectedState">
+            <div class="list" *ngIf="!selectedCity && selectedState">
                 <div 
                 (click)="selectCity(city)"
                 [class.selected]="city===selectedCity"
@@ -31,7 +31,7 @@
                     {{city.city_name}}
                 </div>
             </div>
-            <div *ngIf="selectedCity">
+            <div class="list" *ngIf="selectedCity">
                 <div 
                 class="selected"
                 (click)="unselectCity()">                
@@ -40,6 +40,15 @@
             </div>
         </div>
     </div>
+    <a *ngIf="selectedState && !selectedCity"
+     href="http://int.kekcheburek.ru/?state_id={{selectedState.state_id}}">
+     http://int.kekcheburek.ru/?state_id={{selectedState.state_id}}
+    </a>
+     <a *ngIf="selectedState && selectedCity"
+     href="http://int.kekcheburek.ru/?state_id={{selectedState.state_id}}&city_id={{selectedCity.city_id}}">
+     http://int.kekcheburek.ru/?state_id={{selectedState.state_id}}&city_id={{selectedCity.city_id}}
+    </a>
+     
     <div class="container">
         <a href="http://kekcheburek.ru">Portfolio</a>
         <a href="mailto:ganulenkoaf@gmail.com">ganulenkoaf@gmail.com</a>
