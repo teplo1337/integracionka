@@ -2,15 +2,15 @@
 # http://int.kekcheburek.ru/
 Выбор регионов - городов.
 
-Frontend Angular => ./australia/src/app/app.component.ts
-
-Backend Node js => ./server.js
-
-http://skb.kekcheburek.ru/api/
-http://skb.kekcheburek.ru/api/?state_id=0
+Frontend Angular => ./australia/src/app/app.component.ts <br>
+<br>
+Backend Node js => ./server.js <br>
+<br>
+http://skb.kekcheburek.ru/api/  <br>
+http://skb.kekcheburek.ru/api/?state_id=0  <br>
 http://skb.kekcheburek.ru/api/?state_id=0&city_id=0
-
-
+<br>
+<br>
 MongoDB document:
 
 ```
