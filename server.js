@@ -25,21 +25,29 @@ let router = (app, db) => {
     /* rest api */
 
     app.get('/api/', (req, res) => {
+        console.log(req.query)
         if(req.query.state_id) {
             if(req.query.city_id) {
-                collection.findOne(
-                    {"state_id": Number(req.query.state_id)},
+                collection.find(                   
                     {"state_data": {
                             $elemMatch: {"city_id": Number(req.query.city_id)}
-                    }
-                },(err, result) => {
-                    (err) ? res.status(500).send(err) : res.status(200).send(result.state_data[0].city_name);
+                    },
+                    "state_id": Number(req.query.state_id)
+                },
+            {
+                "state_name": 1,
+                "state_id": 1,
+                "state_data": {
+                    $elemMatch: {"city_id": Number(req.query.city_id)}
+            }
+            }).toArray((err, result) => {
+                    (err) ? res.status(500).send(err) : res.status(200).send(result);
                 });
             } else {
-                collection.findOne({
+                collection.find({
                     "state_id": Number(req.query.state_id)
-                }, (err, result) => {
-                    (err) ? res.status(500).send(err) : res.status(200).send(result.state_data);
+                }).toArray((err, result) => {
+                    (err) ? res.status(500).send(err) : res.status(200).send(result);
                 });
             }
 
