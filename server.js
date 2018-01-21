@@ -52,7 +52,11 @@ let router = (app, db) => {
             }
 
         } else {
-            collection.find().toArray((err, result) => {
+            collection.find({},
+                {
+                    "state_name": 1,
+                    "state_id": 1,
+                }).toArray((err, result) => {
                 (err) ? res.status(500).send(err) : res.status(200).send(result);
             });
         }   

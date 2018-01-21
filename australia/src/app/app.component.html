@@ -5,12 +5,41 @@
 
     <div id="location">   
         <div class="block">
+            <div *ngIf="!selectedState">
+                <div 
+                (click)="selectState(state)"
+                [class.selected]="state===selectedState"
+                class="title" *ngFor="let state of states">
+                    {{state.state_name}}
+                </div>
+            </div>
+            <div *ngIf="selectedState">
+                <div 
+                class="selected" 
+                (click)="unselectState()">                
+                   {{selectedState.state_name}}
+                </div>
+            </div>
         </div>
         <div id="buffer"></div>
         <div class="block">
+            <div *ngIf="!selectedCity && selectedState">
+                <div 
+                (click)="selectCity(city)"
+                [class.selected]="city===selectedCity"
+                class="title" *ngFor="let city of cities">
+                    {{city.city_name}}
+                </div>
+            </div>
+            <div *ngIf="selectedCity">
+                <div 
+                class="selected"
+                (click)="unselectCity()">                
+                    {{selectedCity.city_name}}
+                </div>
+            </div>
         </div>
     </div>
-
     <div class="container">
         <a href="http://kekcheburek.ru">Portfolio</a>
         <a href="mailto:ganulenkoaf@gmail.com">ganulenkoaf@gmail.com</a>
