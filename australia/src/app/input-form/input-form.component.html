@@ -1,3 +1,12 @@
-<p>
-  input-form works!
-</p>
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" novalidate>
+  <div class="form-group">
+    <input list="search" class="form-control" formControlName="text">
+
+    <datalist id="search">
+        <option *ngFor="let item of list" value="{{item}}">
+    </datalist>
+
+    <button type="submit"
+            [disabled]="searchForm.pristine" class="btn btn-success">Выбрать</button>
+  </div>
+</form>

@@ -8,6 +8,8 @@ import { LocationsService } from './locations.service';
 import { InputFormComponent } from './input-form/input-form.component';
 import { HttpClientModule  } from '@angular/common/http';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 const appRoutes: Routes = [
   { path: '', component: AppComponent }
 ];
@@ -21,6 +23,7 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
+    ReactiveFormsModule
   ],
   providers: [LocationsService],
   bootstrap: [AppComponent]

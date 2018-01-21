@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   }
 
   getData (data) {
-    console.log(data)
+    console.log(data);
     this.service.getLocation(data).subscribe(
       (result: any) => {
         this.myLocation.data = result;
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
       this.selectedState = this.myLocation.data[0];
       this.states = this.myLocation.data;
       this.cities = this.selectedState.state_data;
-    } else {
+    } else if (this.myLocation.data) {
       this.states = this.myLocation.data;
     }
     /* If city checked */
@@ -68,20 +68,25 @@ export class AppComponent implements OnInit {
     }
   }
 
-  selectState (state) {
-    this.location.replaceState('', 'state_id=' + state.state_id);
-    this.selectedState = state;
-    this.getData({'state_id' : state.state_id});
+  selectState (state: State) {
+    if (state) {
+      this.location.replaceState('', 'state_id=' + state.state_id);
+      this.selectedState = state;
+      this.getData({'state_id' : state.state_id});
+    }
   }
 
-  selectCity (city) {
-    this.location.replaceState('', 'state_id=' + this.selectedState.state_id + 'city_id=' + city.city_id);
-    this.selectedCity = city;
+  selectCity (city: City) {
+    if (city) {
+      this.location.replaceState('', 'state_id=' + this.selectedState.state_id + '&city_id=' + city.city_id);
+      this.selectedCity = city;
+    }
   }
 
   unselectCity () {
     this.location.replaceState('', 'state_id=' + this.selectedState.state_id);
     this.selectedCity = void 0;
+    this.getData({'state_id' : this.selectedState.state_id});
   }
 
   unselectState () {
@@ -90,5 +95,32 @@ export class AppComponent implements OnInit {
     this.selectedCity = void 0;
     this.selectedState = void 0;
     this.getData({});
+  }
+  generateList() {
+    let data: string [] = [];
+
+    if (this.states && !this.selectedState) {
+      data = this.states.map((state) => {
+        return state.state_name;
+      });
+      return data;
+    }
+    if (this.selectedState && this.cities) {
+      data = this.cities.map((city) => {
+        return city.city_name;
+      });
+      return data;
+    }
+  }
+
+  searchResponse(event: number) {
+    if (this.states && !this.selectedState) {
+      this.selectState(this.states[event]);
+    }
+    if (this.selectedState && this.cities) {
+      this.selectCity(this.cities[event]);
+    }
+
+    console.log(event);
   }
 }
