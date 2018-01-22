@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">  <title>Int</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="./app/style.css" rel="stylesheet">
+</head>
+
+
+<body>
+  <div class="header">
+    <h1>Заголовок</h1>
+  </div>
+  <div class="content">
+        <div class="region-block">
+            <input type="text" id="region">
+            <div id="region-list"></div>
+        </div>
+        <div id="city-list"></div>
+  </div>
+  <div class="footer">
+        <a href="http://kekcheburek.ru">Portfolio</a>
+        <a href="mailto:ganulenkoaf@gmail.com">ganulenkoaf@gmail.com</a>
+        <a href="https://ekaterinburg.hh.ru/resume/51aa88acff02371e0e0039ed1f567676336f44">hh.ru</a>
+  </div>
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="./app/script.js"></script>
+    <script>
+        $('#region').geoSelector('#region-list', '#city-list', 66);
+    </script>
+</html>
